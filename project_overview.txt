@@ -1,0 +1,183 @@
+# AudioGuard - Smart Sound Detection System for Deaf Individuals
+## Project Review Guide
+
+### 1. PROJECT OVERVIEW
+Project Name: AudioGuard
+Purpose: Real-time sound detection system for deaf individuals
+Core Function: Converts environmental sounds into haptic (vibration) feedback
+
+### 2. TECHNICAL SPECIFICATIONS
+
+#### A. Audio Processing Parameters
+- Sample Rate (SR): 16000 Hz (16,000 samples per second)
+- Mel Bands (N_MELS): 64 (frequency divisions)
+- FFT Window (N_FFT): 1024 (Fourier Transform size)
+- Hop Length: 256 (frame advancement)
+- Window Length: 1.0 seconds
+
+#### B. Model Architecture
+CNN (Convolutional Neural Network):
+- Input Layer: 64x64x1 (Mel Spectrogram)
+- Conv2D Layer 1: 16 filters, 3x3 kernel, ReLU
+- MaxPool2D
+- Conv2D Layer 2: 32 filters, 3x3 kernel, ReLU
+- MaxPool2D
+- Conv2D Layer 3: 64 filters, 3x3 kernel, ReLU
+- MaxPool2D
+- Dense Layer: 128 neurons, ReLU
+- Dropout: 0.3 (prevent overfitting)
+- Output: 7 neurons (classes), Softmax
+
+### 3. DATASET INFORMATION
+
+UrbanSound8K Dataset:
+- Total Samples: 8,732 sound clips
+- Maximum Duration: 4 seconds per clip
+- Cross-validation: 10 folds
+
+Original Classes (10):          Merged Classes (7):
+1. air_conditioner            1. siren
+2. car_horn                   2. car_horn
+3. children_playing           3. gun_shot
+4. dog_bark                   4. construction
+5. drilling                   5. engine_idling
+6. engine_idling             6. dog_bark
+7. gun_shot                  7. other
+8. jackhammer
+9. siren
+10. street_music
+
+### 4. MODEL PERFORMANCE
+
+Classification Report Analysis:
+1. Overall Accuracy: 72.20%
+
+Class-wise Performance:
+- Siren:          62.44% precision, 47.45% recall
+- Car Horn:       88.33% precision, 79.70% recall
+- Gun Shot:       85.07% precision, 93.44% recall
+- Construction:   87.30% precision, 80.17% recall
+- Engine Idling:  54.72% precision, 43.57% recall
+- Dog Bark:       68.17% precision, 73.92% recall
+- Other:          70.45% precision, 81.36% recall
+
+### 5. REAL-TIME IMPLEMENTATION
+
+Detection Process:
+1. Audio Capture (1-second windows)
+2. Preprocessing:
+   - Audio normalization
+   - Mel spectrogram conversion
+   - Standardization
+3. Model Prediction
+4. Confidence Thresholds:
+   - Siren: 0.75
+   - Car Horn: 0.75
+   - Gun Shot: 0.75
+   - Construction: 0.80
+   - Engine Idling: 0.80
+   - Dog Bark: 0.85
+   - Other: 0.90
+5. Multiple Detection Confirmation
+6. Haptic Feedback Generation
+
+### 6. LIBRARIES AND TOOLS
+
+Key Libraries:
+1. librosa: Audio processing
+   - Feature extraction
+   - Mel spectrogram generation
+   - Audio file handling
+
+2. tensorflow/keras: Deep Learning
+   - Model creation
+   - Training
+   - Inference
+
+3. sounddevice: Real-time audio
+   - Audio capture
+   - Stream handling
+
+4. numpy: Numerical processing
+   - Array operations
+   - Data manipulation
+
+5. pandas: Data management
+   - Dataset handling
+   - Analysis
+
+6. matplotlib/seaborn: Visualization
+   - Performance plots
+   - Data analysis
+
+### 7. PROJECT FILES
+
+Key Files and Functions:
+1. config.py:
+   - Configuration parameters
+   - Audio settings
+   - Model parameters
+   - Class mappings
+
+2. train.py:
+   - Model definition
+   - Training loop
+   - Data handling
+
+3. preprocess.py:
+   - Audio preprocessing
+   - Feature extraction
+   - Data preparation
+
+4. eval.py:
+   - Model evaluation
+   - Performance metrics
+   - Visualization
+
+5. realtime_demo.py:
+   - Real-time detection
+   - Audio streaming
+   - Alert generation
+
+### 8. COMMON QUESTIONS & ANSWERS
+
+Q: Why use Mel Spectrograms?
+A: Mel spectrograms convert audio into visual patterns that match human hearing perception, making them ideal for machine learning. They capture both frequency and time information effectively.
+
+Q: Why CNN for audio classification?
+A: CNNs excel at pattern recognition in 2D data. Mel spectrograms are like images, making CNNs perfect for detecting sound patterns regardless of when they occur in the audio.
+
+Q: How do you handle background noise?
+A: Multiple strategies:
+- Audio normalization
+- RMS-based noise gate
+- High confidence thresholds
+- Multiple detection confirmation
+
+Q: How do you prevent false alarms?
+A: Several layers of verification:
+1. High confidence thresholds
+2. Multiple consecutive detections required
+3. Class-specific thresholds
+4. Audio level checking
+
+### 9. FUTURE IMPROVEMENTS
+
+Potential Enhancements:
+1. Additional sound classes
+2. Customizable vibration patterns
+3. GPS integration
+4. Battery optimization
+5. User-adjustable thresholds
+6. Offline processing capability
+7. Multi-device synchronization
+8. Enhanced noise rejection
+
+### 10. KEY ACHIEVEMENTS
+
+1. Real-time processing capability
+2. High accuracy for critical sounds
+3. Practical implementation for deaf users
+4. Balanced performance across classes
+5. Efficient mobile deployment
+6. Robust noise handling

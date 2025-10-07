@@ -1,0 +1,65 @@
+1. Project Info
+Mini Project Title: AudioGuard - Smart Sound Detection System for Deaf Individuals
+One-line description: A deep learning system that detects and classifies urban sounds in real-time, providing haptic feedback through phone vibrations to alert deaf users of important environmental sounds
+Dataset: UrbanSound8K dataset (NYU's Urban Sound Research Project)
+
+
+2. Dataset Summary
+Size: 8,732 urban sound recordings
+Structure:
+10 original sound categories
+7 merged actionable classes
+10 cross-validation folds
+Data Types:
+Audio files (.wav format)
+Metadata (categories, timestamps, source info)
+Labels (original and merged classes)
+
+
+3. Basic Statistics
+Audio Duration:
+Mean: 3.6 seconds
+Median: 4.0 seconds
+Range: 0.1 - 4.0 seconds
+Class Distribution:
+Most frequent: "other" (merged category)
+Priority sounds: sirens, car horns, gunshots
+Background sounds: air conditioner, street music
+
+
+4. Visualizations
+Distribution of Clip Durations (hist_duration.png)
+
+Histogram showing the spread of audio clip lengths
+Most clips cluster around 4 seconds
+Sound Category Distribution (bar_counts_original.png)
+
+Bar chart of original 10 sound categories
+Shows raw data distribution
+Merged Class Distribution (bar_counts_merged.png)
+
+Bar chart of 7 actionable classes
+Highlights priority vs non-priority sounds
+Duration by Class (box_duration_by_class.png)
+
+Box plot showing duration patterns per class
+Reveals timing characteristics of different sounds
+Cross-validation Distribution (line_counts_per_fold.png)
+
+Line chart showing data distribution across folds
+Validates balanced dataset splitting
+
+
+5. Key Findings
+Most audio samples are between 3-4 seconds long, providing sufficient context for sound recognition
+Dataset is well-balanced across 10 cross-validation folds, ensuring robust model training
+Priority sounds (sirens, car horns, gunshots) have consistent duration patterns, making them reliable for detection
+Background sounds show more duration variability, which helps in distinguishing them from priority alerts
+
+
+6. Tools Used
+Data Processing: Python, NumPy, Pandas
+Visualization: Matplotlib, Seaborn
+Audio Processing: Librosa
+Deep Learning: TensorFlow, Keras
+Real-time Processing: sounddevice library
